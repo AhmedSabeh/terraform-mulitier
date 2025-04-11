@@ -1,26 +1,38 @@
-# 🏗️ Multi-Tier Application Deployment with Terraform
+🏗️ Multi-Tier Application Deployment with Terraform
+This project demonstrates how to deploy a multi-tier architecture on AWS using Terraform. It includes the use of EC2, RDS, subnets in different Availability Zones, a VPC data block, and a local provisioner to output the EC2 IP address.
 
-This project demonstrates a basic multi-tier architecture on AWS using Terraform.
+📦 What This Project Does
+Uses an existing manually created VPC named ivolve
 
-## 📌 What It Does
+Retrieves the VPC ID using a Terraform data block
 
-- Uses an existing VPC called **"ivolve"**
-- Creates 2 subnets across different AZs
-- Deploys an EC2 instance in one subnet
-- Deploys an RDS MySQL database in a DB subnet group
-- Stores the EC2 public IP locally in `ec2_ip.txt`
+Defines two subnets across different Availability Zones (AZs)
 
-## 📁 Files
+Creates an EC2 instance (web server) in one of the subnets
 
-- `provider.tf` – Sets the AWS region
-- `variables.tf` – Declares input variables
-- `main.tf` – All resources (data sources, EC2, RDS, security groups)
-- `outputs.tf` – Useful info like EC2 IP and RDS endpoint
-- `ec2_ip.txt` – Auto-generated file with the EC2 IP
+Creates an RDS MySQL database inside a subnet group spanning the 2 AZs
 
-## 🚀 How to Use
+Sets up a security group allowing HTTP (80) and SSH (22) access
 
-1. **Create the VPC manually** in AWS and name it `ivolve`
-2. **Initialize Terraform**
-   ```bash
-   terraform init
+Uses a local provisioner to write the EC2 public IP to a file called ec2_ip.txt
+
+Outputs the EC2 public IP and the RDS endpoint
+
+📁 Terraform File Breakdown
+provider.tf: Specifies the AWS provider and region
+
+variables.tf: Defines variables such as VPC name and AZs
+
+main.tf: Contains the core infrastructure configuration including:
+
+Data source for existing VPC and subnets
+
+EC2 instance
+
+RDS database with subnet group
+
+Security groups
+
+outputs.tf: Displays the EC2 IP and RDS endpoint after apply
+
+ec2_ip.txt: Automatically generated file with EC2 IP (via local-exec provisioner)
